@@ -1,8 +1,16 @@
-body {
-   background-color: lightblue;
+* {
+    font-family: "Caveat";
+    text-align: center;
+    font-size: 24px;
  }
 
  h1 {
-   color: navy;
-   margin-left: 20px;
+    text-align: center;
+    color: dark-gray;
+    font-family: "Caveat";
+    font-size: 60px;
+ }
+
+ h2 {
+    text-align: center;
  }
