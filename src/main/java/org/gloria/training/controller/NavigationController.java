@@ -2,6 +2,7 @@ package org.gloria.training.controller;
 
 import org.gloria.training.model.Rectangle;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
