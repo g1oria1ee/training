@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Area of a Rectangle</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -10,7 +11,7 @@
 <body>
 <h1>Area</h1>
 <h3>Leaving width blank will provide the area of a square.</h3>
-<form action="calculate-area" method="post">
+<form th:action="${action}" method="post">
     <label>Length</label><br/>
     <input type="text" name="length" required placeholder="Enter length"
            oninvalid="this.setCustomValidity('Enter length here')"
@@ -18,6 +19,8 @@
 
     <label>Width</label><br/>
     <input type="text" name="width" placeholder="Enter width" /> <br/>
+    <label>Unit</label><br/>
+    <input type="text" name="unit" required placeholder="Enter unit" /> <br/>
     <br/>
     <button class="form-submit-button" type="submit">Submit</button>
 </form>

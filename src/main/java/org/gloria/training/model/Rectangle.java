@@ -1,7 +1,22 @@
 package org.gloria.training.model;
 
+import lombok.*;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+
+@Entity
+@Table(name="Rectangles")
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@ToString
 public class Rectangle {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     private Integer length;
 
@@ -12,25 +27,11 @@ public class Rectangle {
         return width;
     }
 
-    public void setWidth(Integer width) {
-        this.width = width;
-    }
+    private Integer area;
 
-    public Integer getLength() {
-        return length;
-    }
+    private Integer perimeter;
 
-    public void setLength(Integer length) {
-        this.length = length;
-    }
-
-    @Override
-    public String toString() {
-        return "Rectangle{" +
-                "length='" + length + '\'' +
-                ", width='" + width + '\'' +
-                '}';
-    }
+    private String unit;
 
     public Integer getArea() {
         return getLength() * getWidth();
@@ -40,5 +41,13 @@ public class Rectangle {
         return 2 * (getLength() + getWidth());
     }
 
+    @Transient
+    private Integer scaledHeight;
+
+    public Integer getScaledHeight() {
+        BigDecimal scaledHeight = (BigDecimal.valueOf(Math.min(getLength(), getWidth())).divide(
+                BigDecimal.valueOf(Math.max(getLength(), getWidth())), 2, BigDecimal.ROUND_DOWN)).multiply(new BigDecimal(250));
+        return Integer.valueOf(scaledHeight.intValue());
+    }
 
 }

@@ -1,6 +1,6 @@
 package org.gloria.training.controller;
 
-import org.gloria.training.model.Rectangles;
+import org.gloria.training.model.Rectangle;
 import org.gloria.training.repo.RectangleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,21 +12,21 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class RectanglesController {
+public class RectangleController {
 
     @Autowired
     private RectangleRepo rectangleRepo;
 
     @GetMapping("/getAllRectangles")
-    public ResponseEntity<List<Rectangles>> getAllRectangles() {
+    public ResponseEntity<List<Rectangle>> getAllRectangles() {
         try {
-            List<Rectangles> rectanglesList = new ArrayList<>();
-            rectangleRepo.findAll().forEach(rectanglesList::add);
+            List<Rectangle> rectangleList = new ArrayList<>();
+            rectangleRepo.findAll().forEach(rectangleList::add);
 
-            if (rectanglesList.isEmpty()) {
+            if (rectangleList.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity<>(rectanglesList, HttpStatus.OK);
+            return new ResponseEntity<>(rectangleList, HttpStatus.OK);
 
         } catch (Exception exception) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -34,8 +34,8 @@ public class RectanglesController {
     }
 
     @GetMapping("/getRectangleById/{id}")
-    public ResponseEntity<Rectangles> getRectangleById(@PathVariable Integer id) {
-        Optional<Rectangles> rectangleData = rectangleRepo.findById(id);
+    public ResponseEntity<Rectangle> getRectangleById(@PathVariable Integer id) {
+        Optional<Rectangle> rectangleData = rectangleRepo.findById(id);
 
         if (rectangleData.isPresent()) {
             return new ResponseEntity<>(rectangleData.get(), HttpStatus.OK);
@@ -44,27 +44,27 @@ public class RectanglesController {
     }
 
     @PostMapping("/addRectangle")
-    public ResponseEntity<Rectangles> addRectangle(@RequestBody Rectangles rectangles) {
-        rectangles.setArea(rectangles.getArea());
-        rectangles.setPerimeter(rectangles.getPerimeter());
-        Rectangles recObj = rectangleRepo.save(rectangles);
+    public ResponseEntity<Rectangle> addRectangle(@RequestBody Rectangle rectangle) {
+        rectangle.setArea(rectangle.getArea());
+        rectangle.setPerimeter(rectangle.getPerimeter());
+        Rectangle recObj = rectangleRepo.save(rectangle);
         return new ResponseEntity<>(recObj, HttpStatus.OK);
     }
 
     @PostMapping("/updateRectangleById/{id}")
-    public ResponseEntity<Rectangles> updateBookById(@PathVariable Integer id, @RequestBody Rectangles newRecData) {
-        Optional<Rectangles> oldRecData = rectangleRepo.findById(id);
-        Rectangles rectangles = oldRecData.get();
+    public ResponseEntity<Rectangle> updateBookById(@PathVariable Integer id, @RequestBody Rectangle newRecData) {
+        Optional<Rectangle> oldRecData = rectangleRepo.findById(id);
+        Rectangle rectangle = oldRecData.get();
 
         if (oldRecData.isPresent()) {
-            Rectangles updatedRecData = oldRecData.get();
+            Rectangle updatedRecData = oldRecData.get();
             updatedRecData.setLength(newRecData.getLength());
             updatedRecData.setWidth(newRecData.getWidth());
             updatedRecData.setUnit(newRecData.getUnit());
             updatedRecData.setArea(newRecData.getArea());
             updatedRecData.setPerimeter(newRecData.getPerimeter());
 
-            Rectangles recObj = rectangleRepo.save(updatedRecData);
+            Rectangle recObj = rectangleRepo.save(updatedRecData);
             return new ResponseEntity<>(recObj, HttpStatus.OK);
         }
 
