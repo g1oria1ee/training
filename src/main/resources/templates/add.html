@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Add Rectangle</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/my-style.css">
+</head>
+<body>
+<h1>Add Your Rectangle</h1>
+<form action="viewNewRectangle" method="post">
+    <label>Length</label><br/>
+    <input type="text" name="length"
+           required placeholder="Enter length"
+           pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9])$"
+           oninvalid="this.setCustomValidity('Enter integer between 1 and 99,999')"
+           oninput="this.setCustomValidity('')"/> <br/>
+    <label>Width</label><br/>
+    <input type="text" name="width"
+           pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9])$"
+           placeholder="Enter width"
+           oninvalid="this.setCustomValidity('Enter integer between 1 and 99,999')"
+           oninput="this.setCustomValidity('')"/> <br/>
+    <label>Color</label><br/>
+    <select name="color">
+        <option value="white"></option>
+        <option value="blanchedalmond">Blanched Almond</option>
+        <option value="burlywood">Burly Wood</option>
+        <option value="cornsilk">Corn Silk</option>
+        <option value="darkseagreen">Dark Sea Green</option>
+        <option value="deepskyblue">Deep Sky Blue</option>
+        <option value="firebrick">Firebrick</option>
+        <option value="floralwhite">Floral White</option>
+        <option value="honeydew">Honeydew</option>
+        <option value="ivory">Ivory</option>
+        <option value="lavenderblush">Lavender Blush</option>
+        <option value="lemonchiffon">Lemon Chiffon</option>
+        <option value="lightcoral">Light Coral</option>
+        <option value="linen">Linen</option>
+        <option value="mintcream">Mint Cream</option>
+        <option value="mistyrose">Misty Rose</option>
+        <option value="oldlace">Old Lace</option>
+        <option value="papayawhip">Papaya Whip</option>
+        <option value="plum">Plum</option>
+        <option value="thistle">Thistle</option>
+        <option value="tomato">Tomato</option>
+        <option value="wheat">Wheat</option>
+        <option value="whitesmoke">White Smoke</option>
+    </select>
+    <br/>
+    <br/>
+    <button class="form-submit-button" type="submit">Add</button>
+</form>
+
+<br/>
+<a href="/">Home</a>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Rectangles</title>
+    <form action="#" th:action="@{/query/submitQuery}" th:object="${rectangleList}" method="post">
+
+      <table>
+        <thead>
+          <tr th:if="${rectangleList.empty}">
+            <td colspan="2"> No Rectangles Available </td>
+          </tr>
+          <tr>
+            <th>ID</th>
+            <th>Length</th>
+            <th>Width</th>
+            <th>Area</th>
+            <th>Perimeter</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="currentRectangle : ${rectangleList}">
+            <td><input type="checkbox" th:checked="${currentRectangle.selected}" /></td>
+            <td th:text="${currentRectangle.id}" ></td>
+            <td th:text="${currentRectangle.length}"></td>
+            <td th:text="${currentRectangle.width}" ></td>
+            <td th:text="${currentRectangle.area}" ></td>
+            <td th:text="${currentRectangle.perimeter}" ></td>
+          </tr>
+        </tbody>
+      </table>
+    <button type="submit" value="submit">Submit</button>
+  </form>
+</head>
+<body>
+
+</body>
+</html>

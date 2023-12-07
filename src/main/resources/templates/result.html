@@ -10,17 +10,19 @@
     <meta charset="UTF-8">
     <title>About</title>
 </head>
-<div class="h2-inline">
-    <h2>Your rectangle measures </h2>
-    <h2 th:text="${result}">result</h2>
-    <h2> </h2>
-    <h2 th:text="${unit}">unit</h2>
+<div>
+    <h2>Your Rectangle</h2>
 </div>
-<div id="shape" th:style="${scaledHeight}"></div>
+<div class="p-inline">
+    <p th:text="${length}"></p><p class="spaces"> x </p><p th:text="${width}"></p>
+</div>
+<div id="shape" th:style="${style}"></div>
 
 <br/>
+<a href="/addNewRectangle"> Add Another Rectangle </a>
+<a href="/viewAllRectangles"> View Rectangles </a>
+</br></br>
 <a href="/">Home</a>
-
 <body>
 
 </body>

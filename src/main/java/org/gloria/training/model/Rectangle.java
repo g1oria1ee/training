@@ -1,5 +1,6 @@
 package org.gloria.training.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -7,11 +8,8 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name="Rectangles")
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
-@Getter
-@ToString
+@Data
+@JsonIgnoreProperties(value = { "scaledHeight" })
 public class Rectangle {
 
     @Id
@@ -31,8 +29,6 @@ public class Rectangle {
 
     private Integer perimeter;
 
-    private String unit;
-
     public Integer getArea() {
         return getLength() * getWidth();
     }
@@ -40,6 +36,10 @@ public class Rectangle {
     public Integer getPerimeter() {
         return 2 * (getLength() + getWidth());
     }
+
+
+
+    private String color;
 
     @Transient
     private Integer scaledHeight;

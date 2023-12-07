@@ -9,16 +9,22 @@
     <link rel="stylesheet" href="/my-style.css">
 </head>
 <body>
-<h1>Area</h1>
+<h1 th:text="${title}">Area</h1>
 <h3>Leaving width blank will provide the area of a square.</h3>
+<h3>Maximum accepted value: 99,999</h3>
 <form th:action="${action}" method="post">
     <label>Length</label><br/>
-    <input type="text" name="length" required placeholder="Enter length"
-           oninvalid="this.setCustomValidity('Enter length here')"
-           oninput="this.setCustomValidity('')" /> <br/>
-
+    <input type="text" name="length"
+           required placeholder="Enter length"
+           pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9])$"
+           oninvalid="this.setCustomValidity('Enter integer between 1 and 99,999')"
+           oninput="this.setCustomValidity('')"/> <br/>
     <label>Width</label><br/>
-    <input type="text" name="width" placeholder="Enter width" /> <br/>
+    <input type="text" name="width"
+           pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9])$"
+           placeholder="Enter width"
+           oninvalid="this.setCustomValidity('Enter integer between 1 and 99,999')"
+           oninput="this.setCustomValidity('')"/> <br/>
     <label>Unit</label><br/>
     <input type="text" name="unit" required placeholder="Enter unit" /> <br/>
     <br/>
