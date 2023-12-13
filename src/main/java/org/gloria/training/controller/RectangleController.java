@@ -125,4 +125,10 @@ public class RectangleController {
     @DeleteMapping("/deleteRectangleById/{id}")
     @ResponseBody
     public Rectangle deleteRectangleById(@PathVariable Integer id) { return rectangleService.deleteRectangle(id);}
+
+    @GetMapping("/getRectangleByColor/{color}")
+    @ResponseBody
+    public List<Rectangle> getRectangleByColor(@PathVariable String color) {
+        return rectangleService.getRectangleByColor(color);
+    }
 }

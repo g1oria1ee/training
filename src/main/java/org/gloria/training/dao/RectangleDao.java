@@ -52,6 +52,12 @@ public class RectangleDao {
         return rectangle;
     }
 
+    public List<Rectangle> getRectangleByColor(String color) {
+        Session session = this.currentSession();
+        String hql = "FROM Rectangle WHERE color =:color";
+        return session.createQuery(hql, Rectangle.class).setParameter("color", color).getResultList();
+    }
+
     public List<Rectangle> getAllRectangles() {
         Session session = this.currentSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -72,7 +78,6 @@ public class RectangleDao {
                 .equal(root.get("id"), id);
         criteriaQuery.where(idPredicate);
         TypedQuery<Rectangle> query = session.createQuery(criteriaQuery);
-
         Rectangle rectangle = query.getSingleResult();
         session.delete(rectangle);
         return rectangle;

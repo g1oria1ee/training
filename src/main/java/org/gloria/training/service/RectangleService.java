@@ -40,4 +40,9 @@ public class RectangleService {
     public Rectangle updateRectangle(Rectangle rec) {
         return rectangleDao.updateRectangle(rec);
     }
-}
+
+    public List<Rectangle> getRectangleByColor(String color) {
+        return rectangleDao.getRectangleByColor(color);
+    }
+
+    }
