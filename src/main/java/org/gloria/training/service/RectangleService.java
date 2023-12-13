@@ -17,22 +17,27 @@ public class RectangleService {
         rectangle.setWidth(rectangle.getWidth());
         rectangle.setArea(rectangle.getArea());
         rectangle.setPerimeter(rectangle.getPerimeter());
+        System.out.println(rectangle.toString());
         Rectangle newRec = rectangleDao.addNewRectangle(rectangle);
         return newRec;
     }
 
-//    public Rectangle deleteRectangleById(Integer id) {
-//        Rectangle rec = rectangleDao.deleteRectangleById(id);
-//        return rec;
-//    }
-
-    public List<Rectangle> getRectangleById(Integer id) {
-        List<Rectangle> rec = rectangleDao.getRectangleById(id);
+    public Rectangle getRectangleById(Integer id) {
+        Rectangle rec = rectangleDao.getRectangleById(id);
         return rec;
     }
 
     public List<Rectangle> getAllRectangles() {
         List<Rectangle> allRecs = rectangleDao.getAllRectangles();
         return allRecs;
+    }
+
+    public Rectangle deleteRectangle(Integer id) {
+        Rectangle rec = rectangleDao.deleteRectangle(id);
+        return rec;
+    }
+
+    public Rectangle updateRectangle(Rectangle rec) {
+        return rectangleDao.updateRectangle(rec);
     }
 }

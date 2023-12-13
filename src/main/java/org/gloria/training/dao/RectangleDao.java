@@ -29,9 +29,7 @@ public class RectangleDao {
 
     public Rectangle addNewRectangle(Rectangle rectangle) {
         Session session = this.currentSession();
-//        session.save(rectangle);
-//        session.getTransaction().commit();
-        session.persist(rectangle);
+        session.save(rectangle);
         return rectangle;
     }
 
@@ -40,7 +38,7 @@ public class RectangleDao {
 //        return
 //    }
 
-    public List<Rectangle> getRectangleById(Integer id) {
+    public Rectangle getRectangleById(Integer id) {
 
         Session session = this.currentSession();
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -50,18 +48,39 @@ public class RectangleDao {
                 .equal(root.get("id"), id);
         criteriaQuery.where(idPredicate);
         TypedQuery<Rectangle> query = session.createQuery(criteriaQuery);
-        return query.getResultList();
+        Rectangle rectangle = query.getSingleResult();
+        return rectangle;
     }
 
     public List<Rectangle> getAllRectangles() {
-
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        Session session = this.currentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Rectangle> criteriaQuery = criteriaBuilder.createQuery(Rectangle.class);
 
         Root<Rectangle> root = criteriaQuery.from(Rectangle.class);
-        TypedQuery<Rectangle> query = em.createQuery(criteriaQuery);
+        TypedQuery<Rectangle> query = session.createQuery(criteriaQuery);
 
         return query.getResultList();
     }
 
+    public Rectangle deleteRectangle(Integer id) {
+        Session session = this.currentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Rectangle> criteriaQuery = criteriaBuilder.createQuery(Rectangle.class);
+        Root<Rectangle> root = criteriaQuery.from(Rectangle.class);
+        Predicate idPredicate = criteriaBuilder
+                .equal(root.get("id"), id);
+        criteriaQuery.where(idPredicate);
+        TypedQuery<Rectangle> query = session.createQuery(criteriaQuery);
+
+        Rectangle rectangle = query.getSingleResult();
+        session.delete(rectangle);
+        return rectangle;
+    }
+
+    public Rectangle updateRectangle(Rectangle rectangle) {
+        Session session = this.currentSession();
+        session.update(rectangle);
+        return rectangle;
+    }
 }

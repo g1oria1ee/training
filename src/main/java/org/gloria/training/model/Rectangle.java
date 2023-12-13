@@ -16,18 +16,34 @@ public class Rectangle {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    public Rectangle() {
+
+    }
+//    public Rectangle(Integer l) {
+//        length = l;
+//        setWidth(getWidth());
+//        setArea(getArea());
+//        setPerimeter(getPerimeter());
+//        setColor("blue");
+//        setScaledHeight(getScaledHeight());
+//    }
     private Integer length;
 
     private Integer width;
+
+    private Integer area;
+
+    private Integer perimeter;
+
+    private String color;
+
+    @Transient
+    private Integer scaledHeight;
 
     public Integer getWidth() {
         if (width == null) return length;
         return width;
     }
-
-    private Integer area;
-
-    private Integer perimeter;
 
     public Integer getArea() {
         return getLength() * getWidth();
@@ -37,12 +53,6 @@ public class Rectangle {
         return 2 * (getLength() + getWidth());
     }
 
-
-
-    private String color;
-
-    @Transient
-    private Integer scaledHeight;
 
     public Integer getScaledHeight() {
         BigDecimal scaledHeight = (BigDecimal.valueOf(Math.min(getLength(), getWidth())).divide(

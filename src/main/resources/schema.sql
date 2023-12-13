@@ -10,12 +10,12 @@ perimeter INT,
 color VARCHAR(255) NOT NULL
 );
 
---create table dates (
---id INT AUTO_INCREMENT PRIMARY KEY,
---month VARCHAR(255) NOT NULL,
---day INT NOT NULL,
---year INT NOT NULL
---);
+create table dates (
+id INT AUTO_INCREMENT PRIMARY KEY,
+updateMonth INT,
+updateDay INT,
+updateYear INT
+);
 
 --insert into rectangles (length, width, area, perimeter, unit) values
 --(5, 5, 25, 20, 'cm'), (50, 2, 100, 104, 'ft');

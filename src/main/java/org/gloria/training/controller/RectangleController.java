@@ -31,13 +31,81 @@ public class RectangleController {
     @GetMapping("/addNewRectangle")
     public String addRec() { return "add"; }
 
+    @PostMapping("/viewNewRectangle")
+    public String viewNewRec(@ModelAttribute Rectangle rectangle, Model model) {
+        String color = rectangle.getColor().replaceAll("\\s+","");
+        model.addAttribute("length", rectangle.getLength());
+        model.addAttribute("width", rectangle.getWidth());
+        model.addAttribute("style", "height: " + rectangle.getScaledHeight()
+                + "px; background-color: " + color);
+        rectangleService.addNewRectangle(rectangle);
+        return "result";
+    }
+
+    @GetMapping("/viewRectangle")
+    public String viewRec(@RequestParam("id") Integer id, Model model) {
+        Rectangle rectangle = rectangleService.getRectangleById(id);
+        String color = rectangle.getColor().replaceAll("\\s+","");
+
+        model.addAttribute("highlight", rectangle.getId());
+        model.addAttribute("length", rectangle.getLength());
+        model.addAttribute("width", rectangle.getWidth());
+        model.addAttribute("showRec", true);
+        model.addAttribute("style", "height: " + rectangle.getScaledHeight()
+                + "px; background-color: " + color);
+        return getAllRec(model);
+    }
+
+    @GetMapping("/viewAllRectangles")
+    public String getAllRec(Model model) {
+//        Rectangle testRec = new Rectangle(10);
+//        testRec.setId(testRec.getId());
+//        testRec.setWidth(testRec.getWidth());
+//        testRec.setArea(testRec.getArea());
+//        testRec.setColor("blue");
+//        testRec.setPerimeter(testRec.getPerimeter());
+
+
+        List<Rectangle> rectangleList = rectangleService.getAllRectangles();
+        //System.out.println(rectangleList);
+        model.addAttribute("rectangleList", rectangleList);
+        return "view";
+    }
+
+    @GetMapping("/deleteRectangle")
+    public String deleteRec(@RequestParam("id") Integer id,Model model) {
+        rectangleService.deleteRectangle(id);
+        return getAllRec(model);
+    }
+
+    @GetMapping("/updateRectangle")
+    public String updateRec(@RequestParam("id") Integer id, Model model) {
+        Rectangle rectangle = rectangleService.getRectangleById(id);
+        model.addAttribute("highlight", rectangle.getId());
+        model.addAttribute("updateRec", true);
+        model.addAttribute("rectangle", rectangle);
+        return viewRec(id, model);
+    }
+
+    @PostMapping("/viewUpdatedRectangle")
+    public String viewUpRec(@ModelAttribute Rectangle rectangle, Model model) {
+        rectangleService.updateRectangle(rectangle);
+        model.addAttribute("highlight", rectangle.getId());
+        return viewRec(rectangle.getId(), model);
+    }
+
+    @ExceptionHandler(TypeMismatchException.class)
+    public String handleTypeMismatchException(TypeMismatchException ex) {
+        return "/";
+    }
+
     @PostMapping("/addNewRectangle")
     @ResponseBody
     public Rectangle addRec(@RequestBody Rectangle rectangle) { return rectangleService.addNewRectangle(rectangle);}
 
     @GetMapping("/getRectangleById/{id}")
     @ResponseBody
-    public List<Rectangle> getRectangleById(@PathVariable Integer id) {
+    public Rectangle getRectangleById(@PathVariable Integer id) {
         return rectangleService.getRectangleById(id);
     }
 
@@ -47,75 +115,14 @@ public class RectangleController {
         return rectangleService.getAllRectangles();
     }
 
-    @PostMapping("/viewNewRectangle")
-    public String viewNewRec(@ModelAttribute Rectangle rectangle, Model model) {
-        System.out.println(rectangle.toString());
-        model.addAttribute("length", rectangle.getLength());
-        model.addAttribute("width", rectangle.getWidth());
-        model.addAttribute("style", "height: " + rectangle.getScaledHeight()
-                + "px; background-color: " + rectangle.getColor());
-        rectangleService.addNewRectangle(rectangle);
-
-        return "result";
+    @PostMapping("/updateRectangleById/{id}")
+    @ResponseBody
+    public Rectangle updateRectangleById(@PathVariable Integer id, @RequestBody Rectangle rectangle) {
+        rectangle.setId(id);
+        return rectangleService.updateRectangle(rectangle);
     }
 
-    @GetMapping("/viewAllRectangles")
-    public String getAllRec(@ModelAttribute Model model) {
-        List<Rectangle> rectangleList = rectangleService.getAllRectangles();
-        System.out.println(rectangleList);
-        model.addAttribute("rectangleList", rectangleList);
-        return "view";
-    }
-
-    @GetMapping("/area")
-    public String getArea(Model model) {
-        model.addAttribute("title", "Area");
-        model.addAttribute("action", "calculate-area");
-        return "calculate";
-    }
-
-    @GetMapping("/perimeter")
-    public String getPerimeter(Model model) {
-        model.addAttribute("title", "Perimeter");
-        model.addAttribute("action", "calculate-perimeter");
-        return "calculate";
-    }
-
-    @PostMapping("/calculate-area")
-    public String calcArea(@ModelAttribute Rectangle rectangle, Model model) {
-        System.out.println("Area of " + rectangle.toString());
-        model.addAttribute("result", rectangle.getArea());
-        model.addAttribute("length", rectangle.getLength());
-        model.addAttribute("width", rectangle.getWidth());
-        model.addAttribute("measurement", "area");
-        model.addAttribute("scaledHeight", "height: " + rectangle.getScaledHeight() + "px");
-
-        rectangle.setWidth(rectangle.getWidth());
-        rectangle.setArea(rectangle.getArea());
-        rectangle.setPerimeter(rectangle.getPerimeter());
-       // Rectangle recObj = rectangleRepo.save(rectangle);
-
-        return "result";
-    }
-
-    @PostMapping("/calculate-perimeter")
-    public String calcPerimeter(@Validated @ModelAttribute Rectangle rectangle, Model model) {
-        System.out.println("Perimeter of " + rectangle.toString());
-        model.addAttribute("result", rectangle.getPerimeter());
-        model.addAttribute("length", rectangle.getLength());
-        model.addAttribute("width", rectangle.getWidth());
-        model.addAttribute("measurement", "perimeter");
-        model.addAttribute("scaledHeight", "height: " + rectangle.getScaledHeight() + "px");
-
-        rectangle.setWidth(rectangle.getWidth());
-        rectangle.setArea(rectangle.getArea());
-        rectangle.setPerimeter(rectangle.getPerimeter());
-      //  Rectangle recObj = rectangleRepo.save(rectangle);
-        return "result";
-    }
-
-    @ExceptionHandler(TypeMismatchException.class)
-    public String handleTypeMismatchException(TypeMismatchException ex) {
-        return "/";
-    }
+    @DeleteMapping("/deleteRectangleById/{id}")
+    @ResponseBody
+    public Rectangle deleteRectangleById(@PathVariable Integer id) { return rectangleService.deleteRectangle(id);}
 }

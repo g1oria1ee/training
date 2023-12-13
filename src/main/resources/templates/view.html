@@ -2,38 +2,122 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="/my-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>View Rectangles</title>
-    <form action="#" th:action="@{/query/submitQuery}" th:object="${rectangleList}" method="post">
-
+    <title>Rectangles</title>
+</head>
+<body>
+<!--    <form action="/" th:object="${rectangleList}" method="post">-->
+<div class="footer">
+    <a href="/addNewRectangle">Add a Rectangle</a>
+    <a href="/">Home</a>
+</div>
+<div class="left">
       <table>
         <thead>
           <tr th:if="${rectangleList.empty}">
             <td colspan="2"> No Rectangles Available </td>
           </tr>
           <tr>
-            <th>ID</th>
             <th>Length</th>
             <th>Width</th>
             <th>Area</th>
             <th>Perimeter</th>
+            <th>Color</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="currentRectangle : ${rectangleList}">
-            <td><input type="checkbox" th:checked="${currentRectangle.selected}" /></td>
-            <td th:text="${currentRectangle.id}" ></td>
+
+
+          <tr th:each="currentRectangle : ${rectangleList}" th:class="${currentRectangle.id == highlight} ? highlight">
             <td th:text="${currentRectangle.length}"></td>
             <td th:text="${currentRectangle.width}" ></td>
             <td th:text="${currentRectangle.area}" ></td>
             <td th:text="${currentRectangle.perimeter}" ></td>
+            <td th:text="${currentRectangle.color}" ></td>
+              <td>
+              <form action="viewRectangle" method="get">
+                  <input type="hidden" name="id" th:value="${currentRectangle.id}"/>
+                  <button class="form-submit-button" type="submit">View</button>
+              </form>
+              </td>
+              <td>
+                  <form action="deleteRectangle" method="get">
+                      <input type="hidden" name="id" th:value="${currentRectangle.id}"/>
+                      <button class="form-submit-button" type="submit">Delete</button>
+                  </form>
+              </td>
+              <td>
+                  <form action="updateRectangle" method="get">
+                      <input type="hidden" name="id" th:value="${currentRectangle.id}"/>
+                      <button class="form-submit-button" type="submit">Update</button>
+                  </form>
+              </td>
           </tr>
+
         </tbody>
       </table>
-    <button type="submit" value="submit">Submit</button>
-  </form>
-</head>
-<body>
+</div>
+<div th:if="${showRec}" th:unless="${updateRec}" class="right">
+    <div class="p-inline">
+        <p th:text="${length}"></p><p class="spaces"> x </p><p th:text="${width}"></p>
+    </div>
+    <div id="shape" th:style="${style}"></div>
+</div>
+<div th:if="${updateRec}" class="right">
+    </br>
+    <form action="viewUpdatedRectangle" method="post">
+        <label>Length</label><br/>
+        <input type="text" name="length"
+               th:value="${rectangle.length}"
+               pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9])$"
+               oninvalid="this.setCustomValidity('Enter integer between 1 and 99,999')"
+               oninput="this.setCustomValidity('')"/> <br/>
+        <label>Width</label><br/>
+        <input type="text" name="width"
+               th:value="${rectangle.width}"
+               pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9])$"
+               placeholder="Enter width"
+               oninvalid="this.setCustomValidity('Enter integer between 1 and 99,999')"
+               oninput="this.setCustomValidity('')"/> <br/>
+        <label>Color</label><br/>
+        <select name="color">
+            <option th:value="${rectangle.color}" th:text="${rectangle.color}"></option>
+            <option value="White">White</option>
+            <option value="Blanched Almond">Blanched Almond</option>
+            <option value="Burly Wood">Burly Wood</option>
+            <option value="Corn Silk">Corn Silk</option>
+            <option value="Dark Sea Green">Dark Sea Green</option>
+            <option value="Deep Sky Blue">Deep Sky Blue</option>
+            <option value="Firebrick">Firebrick</option>
+            <option value="Floral White">Floral White</option>
+            <option value="Honeydew">Honeydew</option>
+            <option value="Ivory">Ivory</option>
+            <option value="Lavender Blush">Lavender Blush</option>
+            <option value="Lemon Chiffon">Lemon Chiffon</option>
+            <option value="Light Coral">Light Coral</option>
+            <option value="Linen">Linen</option>
+            <option value="Mint Cream">Mint Cream</option>
+            <option value="Misty Rose">Misty Rose</option>
+            <option value="Old Lace">Old Lace</option>
+            <option value="Papaya Whip">Papaya Whip</option>
+            <option value="Plum">Plum</option>
+            <option value="Thistle">Thistle</option>
+            <option value="Tomato">Tomato</option>
+            <option value="Wheat">Wheat</option>
+            <option value="White Smoke">White Smoke</option>
+        </select>
+        <br/>
+        <br/>
+        <input type="hidden" name="id" th:value="${rectangle.id}"/>
+        <button class="form-submit-button" type="submit">Update</button>
+    </form>
+</div>
 
+
+<!--  </form>-->
 </body>
 </html>
